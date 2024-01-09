@@ -1,1 +1,1 @@
-# fullcycle-docker-desafio-go
+Docker Pull Command: `docker pull mendesf/fullcycle-desafio-go:latest`
