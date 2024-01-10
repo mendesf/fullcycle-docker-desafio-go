@@ -1,8 +1,10 @@
-FROM golang:1.21.5-alpine3.19 as build
-WORKDIR /usr/src/app
-COPY go.mod app.go ./
-RUN go build -v -ldflags="-s -w" -o /usr/local/bin/app
+FROM golang:1.21.5 as build
 
-FROM alpine:latest
-COPY --from=build /usr/local/bin/app /usr/local/bin/app
-CMD [ "app" ]
+WORKDIR /go/src/app
+COPY go.mod app.go ./
+
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /go/bin/app
+
+FROM scratch
+COPY --from=build /go/bin/app /
+CMD ["/app"]
